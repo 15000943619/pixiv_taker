@@ -31,18 +31,28 @@ def tag_img(url):
         html='https://www.pixiv.net'+i
         print(html)
     
-def debug():
+def debug():    #从本地html进一步得到网址
     with open('pixiv.html','r',encoding='utf-8')as f:
         text=f.read()
     tree_tag=etree.HTML(text,etree.HTMLParser())    #实例化
     result=tree_tag.xpath('//div[@class="sc-iasfms-0 jtpclu"]/a/@href')       #获取所有a节点下href的属性,result是列表
     return result    
 
-def image():
+def image(url_img): #从图片网址得到图片
     header={
-
+        'user-agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44",
+        'accept-language':'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        'referer': 'https://www.pixiv.net/artworks/106479519',
+        'cookie':'first_visit_datetime_pc=2023-03-19+22:09:20; p_ab_id=8; p_ab_id_2=2; p_ab_d_id=1426367957; yuid_b=M4MiUic; PHPSESSID=92305565_NUeJMolMR8Nqi931pjP4vdKK9drgaX4K; device_token=aa6c080c4476f5285689770b804a421a; privacy_policy_agreement=5; c_type=19; privacy_policy_notification=0; a_type=0; b_type=1; QSI_S_ZN_5hF4My7Ad6VNNAi=v:0:0; _ga=GA1.1.704326365.1679231439; login_ever=yes; pt_60er4xix=uid=UT-yPHK7tzM5I-tl6AF6lA&nid=0&vid=sbj2wnQalxlvmgiGLJgj0g&vn=1&pvn=2&sact=1679494883918&to_flag=0&pl=IZoRf4OCSv6aouL5bhDEAg*pt*1679494883918; __cf_bm=mvgaAJ.UwDvu6upCqkUqwLXhcg8KWukvpYlhFnZ77Bs-1679570390-0-AcHFTzYUzIQCam0SaxVOxw1W1nd/GryiYcMdcM/jcm1LCieBr6r1ACPYsl7nPoOGLfooEX8GBXP+x7yKTcqEgKy6s+IeGfT+2d3WGCbAzL0Uvko6pEQJd77haQ+0GuYBtuhu9eLySZWhaGybSfbW1tuguA4EDXbEL9HyxsZ7kK+BUd54jrAJ7lx2V/ezLghWlA==; tag_view_ranking=_EOd7bsGyl~ziiAzr_h04~Lt-oEicbBr~RTJMXD26Ak~b_rY80S-DW~tgP8r-gOe_~HKYKqXebBi~azESOjmQSV~CiSfl_AE0h~U-RInt8VSZ~TqiZfKmSCg~pLS4i4zJjv~eVxus64GZU~9Gbahmahac~SIpXPnQ53M~Y1xsKC1Dhb~_AKBg0O8RH~obb2YVQpYu~sAwDH104z0~LJo91uBPz4~RNN9CgGExV~WEd8vsuiF3~KotDglvMRV~99-dVV-h9A~1yIPTg75Rl~IBMk1G0ITp~3W4zqr4Xlx~mUFTwA-J1U~60eEI9YvCU~ZhzlstzBJu~HqA-_UG50j~npWJIbJroU~OUF2gvwPef~GgHCEeIOHr~0Yr4YP25l8~Dp-Y5Ib1tT~DlTwYHcEzf~As0DAoQ1KZ~5oPIfUbtd6~7fCik7KLYi~8-iylRZUWo~KMpT0re7Sq~OH5ieNjgYI~6Xu4BT4Xar~Ie2c51_4Sp~BSlt10mdnm~faHcYIP1U0~AoKfsFwwdu~M40fgAfwyE~M4g-pezQI0~HHxwTpn5dx~EOzskQAUQs~Afi3Cp-WVA~JrZT530U46~eYfNGKUJaM~g2IyszmEaU~gu9E1MJaRK~MsV-U-wjkd~ETjPkL0e6r~pA1j4WTFmq~j3leh4reoN~pzZvureUki~pzzjRSV6ZO~eLGuAzPy_R~9ODMAZ0ebV~DpO7Lofslr~HBlflqJjBZ~tK1rVKwWT5~sCEogr8AZq~QIc0RHSvtN~FMIL62bNow~VRuBtwFc6O~ZQ_7KM3e6B~8VXisGdOOu~ZMdJr3joTD~lk1y5y0FPV~8ppzbBh_mg~zqe8dqUBGC~48UjH62K37~gCB7z_XWkp~YXsA4N8tVW~iAHff6Sx6z~PsltMJiybA~bSKFGgvsyE~NGpDowiVmM~u8McsBs7WV~NSFQ4Z_Cgj~UpTfgR43b0~wlSgjwYrSu~DpYZ-BAzxm~HY55MqmzzQ~_hSAdpN9rx~kdKYwXwNak~YHB-rmZeV3~_pwIgrV8TB~QXNZpmnsMo~uW5495Nhg-~q3eUobDMJW~bvp7fCUKNH~-StjcwdYwv; _ga_75BBYNYN9J=GS1.1.1679570387.7.1.1679570457.0.0.0'
     }
+    img=requests.get(url=url_img,headers=header).text
+    # with open('img.html','w',encoding='utf-8')as f:
+    #     f.write(img.text)
+    tree=etree.HTML(img,etree.HTMLParser())
+    result=tree.xpath('//div[@role="presentation"]/a/@href')
+    return result
+
 
 if __name__=='__main__':
-    # tag_img('https://www.pixiv.net/tags/Genshin/artworks?s_mode=s_tag')
-    debug()
+    for i in debug():
+        download_img(image(i))
