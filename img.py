@@ -1,4 +1,5 @@
 import requests
+from lxml import etree
 
 
 def download_img(url):
