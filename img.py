@@ -31,18 +31,23 @@ def tag_img(url):
         html='https://www.pixiv.net'+i
         print(html)
     
-def debug():
+def debug():    #从本地html进一步得到网址
     with open('pixiv.html','r',encoding='utf-8')as f:
         text=f.read()
     tree_tag=etree.HTML(text,etree.HTMLParser())    #实例化
     result=tree_tag.xpath('//div[@class="sc-iasfms-0 jtpclu"]/a/@href')       #获取所有a节点下href的属性,result是列表
     return result    
 
-def image():
+def image(url_img): #从图片网址得到图片
     header={
-
+        'user-agent':"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36 Edg/111.0.1661.44",
+        'accept-language':'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        "referer": "https://www.pixiv.net/"
     }
+    img=requests.get(url=url_img,headers=header)
+    with open('img.html','w',encoding='utf-8')as f:
+        f.write(img.text)
+
 
 if __name__=='__main__':
-    # tag_img('https://www.pixiv.net/tags/Genshin/artworks?s_mode=s_tag')
-    debug()
+    image('https://www.pixiv.net/artworks/106479519')
