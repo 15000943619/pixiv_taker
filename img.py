@@ -55,4 +55,5 @@ def image(url_img): #从图片网址得到图片
 
 if __name__=='__main__':
     for i in debug():
+        download_img('https://i.pximg.net/img-original/img/2023/03/22/07/56/01/106444127_p0.jpg')
         download_img(image(i))
