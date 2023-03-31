@@ -2,7 +2,7 @@ import requests
 import json
 
 def debug():
-    url='https://www.pixiv.net/ajax/search/artworks/女の子?word=女の子&order=date_d&mode=all&p=1&s_mode=s_tag_full&type=all&lang=zh&version=672119281890dc34b100e3dcd0db66ef3545c685'
+    url='https://www.pixiv.net/ajax/search/artworks/少女?word=少女&order=date_d&mode=all&p=1&s_mode=s_tag_full&type=all&lang=zh&version=0032d4bcb39dd63e18bebdca0ab7e80167604a5c'
     picture=image_tag_taker(url)
     table=picture.manage_url()  #得到多条url
     for i in range(len(table)):
@@ -35,17 +35,31 @@ class image_tag_taker():
         else:
             print('url unknown!')
     
-    def image(self):  #通过一个url得到图片url
+    def image(self):  #通过一个url得到多个含url的字典
         res = requests.get(url=self.page_url, headers=self.head)
         if res.status_code==200:
             j=json.loads(res.text)#分析json文件
             results=j.get('body').get('illustManga').get('data')
-        return results
+        return results   #返回多个字典组成的列表
+    
+    def image_popular(self):
+        res = requests.get(url=self.page_url, headers=self.head)
+        if res.status_code==200:
+            j=json.loads(res.text)#分析json文件
+            results=j.get('body').get('popular').get('recent')
+        return results   #返回多个字典组成的列表
 
     def save_image(self):     #将一个url中的原图保存下来（单页），多页需要更换url
-        book=self.image()
+        a=int(input('请输入选项：1热门,2全部,3停止：'))
+        if a==1:
+            book=self.image_popular()
+        elif a==2:
+            book=self.image()
+        else:
+            return 0
         for i in book:
-            if 'AI'in i.get('tags'): #排除AI
+            k=int(i.get('aiType'))
+            if k>=2:
                 continue
             else:
                 j=i.get('url')
