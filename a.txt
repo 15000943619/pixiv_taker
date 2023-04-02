@@ -1,2 +1,2 @@
-https://www.pixiv.net/ajax/search/artworks/妹子?word=妹子&order=date_d&mode=all&p=1&s_mode=s_tag_full&type=all&lang=zh&version=850f2ba8204f5e6a8a2e36c323bb4ec1a792f255
-https://www.pixiv.net/ajax/search/artworks/妹子?word=妹子&order=date_d&mode=all&p=2&s_mode=s_tag_full&type=all&lang=zh&version=850f2ba8204f5e6a8a2e36c323bb4ec1a792f255
+71287283
+71280287

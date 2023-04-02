@@ -42,7 +42,17 @@ class image_tag_taker():
             results=j.get('body').get('illustManga').get('data')
         return results   #返回多个字典组成的列表
     
-    def image_popular(self):
+    def manage_url(self):   #得到多页的url
+        url=self.page_url
+        a=[]#建立存放url的列表
+        page_number_first=int(input('请输入初始爬取页数:'))
+        page_number=int(input('请输入末尾爬取页数:'))
+        a.append(url.replace('p=1','p='+str(page_number_first)))    #先初始化赋值
+        for i in range(page_number_first+1,page_number+1):
+            a.append(url.replace('p=1','p='+str(i)))
+        return a   #返回一个含有多个url的列表   
+        
+    def image_popular(self):  #得到热门url
         res = requests.get(url=self.page_url, headers=self.head)
         if res.status_code==200:
             j=json.loads(res.text)#分析json文件
@@ -75,15 +85,5 @@ class image_tag_taker():
                 except ValueError:
                     continue
             
-    def manage_url(self):   #得到多页的url
-        url=self.page_url
-        a=[]#建立存放url的列表
-        page_number_first=int(input('请输入初始爬取页数:'))
-        page_number=int(input('请输入末尾爬取页数:'))
-        a.append(url.replace('p=1','p='+str(page_number_first)))    #先初始化赋值
-        for i in range(page_number_first+1,page_number+1):
-            a.append(url.replace('p=1','p='+str(i)))
-        return a   #返回一个含有多个url的列表
-
 if __name__=='__main__':
     debug()
