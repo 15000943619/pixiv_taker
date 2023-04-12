@@ -84,6 +84,7 @@ class image_tag_taker():
                     self.download_img(j_2)
                 except ValueError:
                     continue
-            
+
+           
 if __name__=='__main__':
     debug()
